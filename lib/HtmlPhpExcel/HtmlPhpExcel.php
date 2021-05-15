@@ -19,7 +19,7 @@ class HtmlPhpExcel
      *
      * @var string
      */
-    private $htmlStringOrFile;
+    protected $htmlStringOrFile;
 
     /**
      * The class attribute the tables must have to be parsed
@@ -27,7 +27,7 @@ class HtmlPhpExcel
      *
      * @var string
      */
-    private $tableClass;
+    protected $tableClass;
 
     /**
      * The class attribute the rows (<tr>) must have to be parsed.
@@ -35,7 +35,7 @@ class HtmlPhpExcel
      *
      * @var string
      */
-    private $rowClass;
+    protected $rowClass;
 
     /**
      * The class attribute the rows (<td> or <th>) must have to be parsed.
@@ -43,28 +43,28 @@ class HtmlPhpExcel
      *
      * @var string
      */
-    private $cellClass;
+    protected $cellClass;
 
     /**
      * The Spreadsheet instance generated with this class
      *
      * @var Spreadsheet
      */
-    private $spreadsheet;
+    protected $spreadsheet;
 
     /**
      * The document instance which contains the parsed html elements
      *
      * @var \Ticketpark\HtmlPhpExcel\Elements\Document
      */
-    private $document;
+    protected $document;
 
     /**
      * Determines if the values should be encoded in some way before writing to the excel cell
      *
      * @var null|string
      */
-    private $changeEncoding;
+    protected $changeEncoding;
 
     public function __construct(string $htmlStringOrFile = null)
     {
@@ -243,7 +243,7 @@ class HtmlPhpExcel
         }
     }
 
-    private function setDimensionsForRow(Worksheet $excelWorksheet, Row $excelElement, HtmlPhpExcelElement\Row $row): void
+    protected function setDimensionsForRow(Worksheet $excelWorksheet, Row $excelElement, HtmlPhpExcelElement\Row $row): void
     {
         $dimensions = $this->getDimensionsArray($row);
 
@@ -260,7 +260,7 @@ class HtmlPhpExcel
         }
     }
 
-    private function setDimensionsForCell(Worksheet $excelWorksheet, Cell $excelElement, HtmlPhpExcelElement\Cell $cell): void
+    protected function setDimensionsForCell(Worksheet $excelWorksheet, Cell $excelElement, HtmlPhpExcelElement\Cell $cell): void
     {
         $dimensions = $this->getDimensionsArray($cell);
 
@@ -272,12 +272,12 @@ class HtmlPhpExcel
         }
     }
 
-    private function getRowStylesArray(HtmlPhpExcelElement\Row $row): array
+    protected function getRowStylesArray(HtmlPhpExcelElement\Row $row): array
     {
         return $this->getStylesArray($row);
     }
 
-    private function getCellStylesArray(HtmlPhpExcelElement\Cell $cell): array
+    protected function getCellStylesArray(HtmlPhpExcelElement\Cell $cell): array
     {
         $styles = $this->getStylesArray($cell);
 
@@ -288,7 +288,7 @@ class HtmlPhpExcel
         return $styles;
     }
 
-    private function getStylesArray(HtmlPhpExcelElement\Element $documentElement): array
+    protected function getStylesArray(HtmlPhpExcelElement\Element $documentElement): array
     {
         $styles = array();
 
@@ -310,7 +310,7 @@ class HtmlPhpExcel
         return $styles;
     }
 
-    private function getDimensionsArray(HtmlPhpExcelElement\Element $documentElement): array
+    protected function getDimensionsArray(HtmlPhpExcelElement\Element $documentElement): array
     {
         $dimensions = array();
 
@@ -332,14 +332,14 @@ class HtmlPhpExcel
         return $dimensions;
     }
 
-    private function getHighestRow(Worksheet $excelWorksheet): int
+    protected function getHighestRow(Worksheet $excelWorksheet): int
     {
         $highestRow = $excelWorksheet->getHighestRow(0);
 
         return intval($highestRow) + intval($highestRow > 1);
     }
 
-    private function sanitizeArray(array $array): array
+    protected function sanitizeArray(array $array): array
     {
         foreach($array as $key => $value){
             if(is_array($value)){
@@ -372,7 +372,7 @@ class HtmlPhpExcel
      * @param string $value
      * @return string
      */
-    private function convertStaticPhpSpreadsheetConstantsFromStringsToConstants(string $value)
+    protected function convertStaticPhpSpreadsheetConstantsFromStringsToConstants(string $value)
     {
         if (strpos($value, 'PHPExcel_') === 0 || strpos($value, 'PhpSpreadsheet_') === 0) {
             $parts = explode('::', $value);
@@ -391,7 +391,7 @@ class HtmlPhpExcel
         return $value;
     }
 
-    private function changeValueEncoding(string $value): string
+    protected function changeValueEncoding(string $value): string
     {
         if (null !== $this->changeEncoding) {
             $value = call_user_func($this->changeEncoding, $value);
