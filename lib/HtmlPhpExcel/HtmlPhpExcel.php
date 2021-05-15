@@ -155,7 +155,7 @@ class HtmlPhpExcel
         return $this;
     }
 
-    private function parseHtml(): void
+    protected function parseHtml(): void
     {
         $parser = new Parser($this->htmlStringOrFile);
         $document = $parser->setTableClass($this->tableClass)
@@ -166,7 +166,7 @@ class HtmlPhpExcel
         $this->document = $document;
     }
 
-    private function createExcel(): void
+    protected function createExcel(): void
     {
         // Loop over all tables in document
         $tableNumber = 0;
@@ -208,13 +208,13 @@ class HtmlPhpExcel
                     if ($explicitCellType) {
                         $excelWorksheet->setCellValueExplicit(
                             $excelCellIndex,
-                            $this->changeValueEncoding($cell->getValue()),
+                            $this->changeValueEncoding(trim($cell->getValue())),
                             $this->convertStaticPhpSpreadsheetConstantsFromStringsToConstants($explicitCellType)
                         );
                     } else {
                         $excelWorksheet->setCellValue(
                             $excelCellIndex,
-                            $this->changeValueEncoding($cell->getValue())
+                            $this->changeValueEncoding(trim($cell->getValue()))
                         );
                     }
 
